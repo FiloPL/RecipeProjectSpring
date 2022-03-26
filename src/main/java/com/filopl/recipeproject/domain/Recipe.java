@@ -1,6 +1,7 @@
 package com.filopl.recipeproject.domain;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Recipe {
@@ -9,7 +10,6 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     private String description;
     private Integer prepTime;
     private Integer cookTime;
@@ -17,6 +17,11 @@ public class Recipe {
     private String source;
     private String url;
     private String directions;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    private Set<Ingredient> ingredients;
+
+    @Lob
     private Byte[] image;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -100,5 +105,13 @@ public class Recipe {
 
     public void setNotes(Notes notes) {
         this.notes = notes;
+    }
+
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }
