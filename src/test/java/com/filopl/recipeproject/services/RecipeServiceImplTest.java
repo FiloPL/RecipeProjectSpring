@@ -1,5 +1,7 @@
 package com.filopl.recipeproject.services;
 
+import com.filopl.recipeproject.converters.RecipeCommandToRecipe;
+import com.filopl.recipeproject.converters.RecipeToRecipeCommand;
 import com.filopl.recipeproject.domain.Recipe;
 import com.filopl.recipeproject.repositories.RecipeRepository;
 import org.aspectj.lang.annotation.Before;
@@ -9,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.context.annotation.Bean;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,32 +21,52 @@ import static org.mockito.Mockito.*;
  * Created by T.Filo Zegarlicki on 29.03.2022
  **/
 class RecipeServiceImplTest {
-
     RecipeServiceImpl recipeService;
 
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
     @Before("")
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        recipeService = new RecipeServiceImpl(recipeRepository);
+
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @Test
-    public void getRecipes() throws Exception{
+    public void getRecipeByIdTest() throws Exception {
         Recipe recipe = new Recipe();
-        HashSet recipeData = new HashSet();
-        recipeData.add(recipe);
+        recipe.setId(1L);
+        Optional<Recipe> recipeOptional = Optional.of(recipe);
 
-        when(recipeService.getRecipes()).thenReturn(recipeData);
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        Recipe recipeReturned = recipeService.findById(1L);
+
+        assertNotNull(recipeReturned);
+        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, never()).findAll();
+    }
+
+    @Test
+    public void getRecipesTest() throws Exception {
+        Recipe recipe = new Recipe();
+        HashSet receipesData = new HashSet();
+        receipesData.add(recipe);
+
+        when(recipeService.getRecipes()).thenReturn(receipesData);
 
         Set<Recipe> recipes = recipeService.getRecipes();
 
         assertEquals(recipes.size(), 1);
         verify(recipeRepository, times(1)).findAll();
-
+        verify(recipeRepository, never()).findById(anyLong());
     }
-
 
 }
