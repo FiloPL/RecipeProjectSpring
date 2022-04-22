@@ -10,9 +10,11 @@ import org.junit.Test;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.*;
+
 /**
  * Created by T.Filo Zegarlicki on 10.04.2022
  **/
+
 class IngredientToIngredientCommandTest {
 
     public static final Recipe RECIPE = new Recipe();
@@ -20,6 +22,7 @@ class IngredientToIngredientCommandTest {
     public static final String DESCRIPTION = "Cheeseburger";
     public static final Long UOM_ID = new Long(2L);
     public static final Long ID_VALUE = new Long(1L);
+
 
     IngredientToIngredientCommand converter;
 
@@ -50,9 +53,8 @@ class IngredientToIngredientCommandTest {
         //when
         IngredientCommand ingredientCommand = converter.convert(ingredient);
         //then
-        assertNull(ingredientCommand.getUnitOfMeasure());
+        assertNull(ingredientCommand.getUom());
         assertEquals(ID_VALUE, ingredientCommand.getId());
-        // assertEquals(RECIPE, ingredientCommand.get);
         assertEquals(AMOUNT, ingredientCommand.getAmount());
         assertEquals(DESCRIPTION, ingredientCommand.getDescription());
     }
@@ -74,8 +76,8 @@ class IngredientToIngredientCommandTest {
         IngredientCommand ingredientCommand = converter.convert(ingredient);
         //then
         assertEquals(ID_VALUE, ingredientCommand.getId());
-        assertNotNull(ingredientCommand.getUnitOfMeasure());
-        assertEquals(UOM_ID, ingredientCommand.getUnitOfMeasure().getId());
+        assertNotNull(ingredientCommand.getUom());
+        assertEquals(UOM_ID, ingredientCommand.getUom().getId());
         // assertEquals(RECIPE, ingredientCommand.get);
         assertEquals(AMOUNT, ingredientCommand.getAmount());
         assertEquals(DESCRIPTION, ingredientCommand.getDescription());
