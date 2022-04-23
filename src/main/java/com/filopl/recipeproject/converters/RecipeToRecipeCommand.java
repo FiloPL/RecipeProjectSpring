@@ -13,13 +13,14 @@ import org.springframework.stereotype.Component;
  **/
 
 @Component
-public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand>{
+public class RecipeToRecipeCommand  implements Converter<Recipe, RecipeCommand>{
 
     private final CategoryToCategoryCommand categoryConveter;
     private final IngredientToIngredientCommand ingredientConverter;
     private final NotesToNotesCommand notesConverter;
 
-    public RecipeToRecipeCommand(CategoryToCategoryCommand categoryConveter, IngredientToIngredientCommand ingredientConverter, NotesToNotesCommand notesConverter) {
+    public RecipeToRecipeCommand(CategoryToCategoryCommand categoryConveter, IngredientToIngredientCommand ingredientConverter,
+                                 NotesToNotesCommand notesConverter) {
         this.categoryConveter = categoryConveter;
         this.ingredientConverter = ingredientConverter;
         this.notesConverter = notesConverter;
@@ -29,7 +30,7 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand>{
     @Nullable
     @Override
     public RecipeCommand convert(Recipe source) {
-        if(source == null){
+        if (source == null) {
             return null;
         }
 
@@ -43,9 +44,10 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand>{
         command.setServings(source.getServings());
         command.setSource(source.getSource());
         command.setUrl(source.getUrl());
+        command.setImage(source.getImage());
         command.setNotes(notesConverter.convert(source.getNotes()));
 
-        if(source.getCategories() != null && source.getCategories().size() > 0 ){
+        if (source.getCategories() != null && source.getCategories().size() > 0){
             source.getCategories()
                     .forEach((Category category) -> command.getCategories().add(categoryConveter.convert(category)));
         }
@@ -56,10 +58,5 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand>{
         }
 
         return command;
-    }
-
-    @Override
-    public <U> Converter<Recipe, U> andThen(Converter<? super RecipeCommand, ? extends U> after) {
-        return Converter.super.andThen(after);
     }
 }
