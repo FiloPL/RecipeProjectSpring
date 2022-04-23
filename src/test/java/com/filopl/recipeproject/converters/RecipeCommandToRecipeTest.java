@@ -105,4 +105,3 @@ public class RecipeCommandToRecipeTest {
         assertEquals(2, recipe.getIngredients().size());
     }
 }
-

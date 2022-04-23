@@ -20,7 +20,8 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class RecipeServiceIT {
+public class RecipeServiceIT {
+
     public static final String NEW_DESCRIPTION = "New Description";
 
     @Autowired

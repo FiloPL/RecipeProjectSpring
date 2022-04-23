@@ -11,7 +11,6 @@ import static org.junit.Assert.*;
  * Created by T.Filo Zegarlicki on 10.04.2022
  **/
 class CategoryCommandToCategoryTest {
-
     public static final Long ID_VALUE = new Long(1L);
     public static final String DESCRIPTION = "description";
     CategoryCommandToCategory conveter;
@@ -45,5 +44,4 @@ class CategoryCommandToCategoryTest {
         assertEquals(ID_VALUE, category.getId());
         assertEquals(DESCRIPTION, category.getDescription());
     }
-
 }

@@ -25,7 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by T.Filo Zegarlicki on 30.03.2022
  **/
 class IndexControllerTest {
-
     @Mock
     RecipeService recipeService;
 
@@ -68,7 +67,6 @@ class IndexControllerTest {
 
         //when
         String viewName = controller.getIndexPage(model);
-
 
         //then
         assertEquals("index", viewName);
