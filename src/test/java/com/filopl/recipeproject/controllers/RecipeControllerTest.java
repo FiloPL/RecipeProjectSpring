@@ -2,6 +2,7 @@ package com.filopl.recipeproject.controllers;
 
 import com.filopl.recipeproject.commands.RecipeCommand;
 import com.filopl.recipeproject.domain.Recipe;
+import com.filopl.recipeproject.exceptions.NotFoundException;
 import com.filopl.recipeproject.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,6 +50,15 @@ class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"))
                 .andExpect(model().attributeExists("recipe"));
+    }
+
+    @Test
+    public void testGetRecipeNotFound() throws Exception {
+
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/recipe/1/show"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
